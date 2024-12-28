@@ -1,0 +1,56 @@
+Question Link: https://leetcode.com/problems/majority-element-ii/
+
+class Solution {
+    public List<Integer> majorityElement(int[] nums) {
+        // this solution is follow up of Majority Element - 1
+        // Moores voting Approach
+        
+        int count1 = 0;
+        int count2 = 0;
+
+        int element1 = Integer.MAX_VALUE;
+        int element2 = Integer.MAX_VALUE;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (count1 == 0 && element2 != nums[i]) {
+                count1 = 1;
+                element1 = nums[i];
+            } else if (count2 == 0 && element1 != nums[i]) {
+                count2 = 1;
+                element2 = nums[i];
+            } else if (element1 == nums[i]) {
+                count1++;
+            } else if (element2 == nums[i]) {
+                count2++;
+            } else {
+                count1--;
+                count2--;
+            }
+        }
+
+        count1 = 0;
+        count2 = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (element1 == nums[i]) {
+                count1++;
+            }
+            if (element2 == nums[i]) {
+                count2++;
+            }
+        }
+
+        List<Integer> answer = new ArrayList<>();
+
+        int majorityElement = (int) nums.length / 3 + 1;
+
+        if (count1 >= majorityElement) {
+            answer.add(element1);
+        }
+        if (count2 >= majorityElement) {
+            answer.add(element2);
+        }
+
+        return answer;
+    }
+}
