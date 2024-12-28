@@ -1,0 +1,75 @@
+Question Link: https://leetcode.com/problems/majority-element/
+
+class Solution {
+    public int majorityElement(int[] nums) {
+        // int answer = 0;
+        // for (int i = 0; i < nums.length; i++) {
+        //     int count  = 0;
+        //     for (int j = 0; j < nums.length; j++) {
+        //         if (nums[i] == nums[j]) {
+        //             count++;
+        //         }
+        //     }
+
+        //     if (count > nums.length / 2) {
+        //         return nums[i];
+        //     }
+        // }
+        // return -1;
+        // ArrayList<Integer> mapArrays = new ArrayList<>();
+
+        // -----------------------------
+        // the below code wont work for negative numbers
+        // ------------------------------
+        // int[] mapArrays = new int[50001];
+
+        // for (int i = 0; i < nums.length; i++) {
+        //     mapArrays[nums[i]] = mapArrays[nums[i]] + 1;
+        // }
+
+        // int max = mapArrays[0];
+        // int index = 0;
+
+        // for (int i = 1; i < mapArrays.length; i++) {
+        //     if (mapArrays[i] > max) {
+        //         max = mapArrays[i];
+        //         index = i;
+        //     }
+        // }
+
+        // return index;
+
+         // -----------------------------
+        // the above code wont work for negative numbers
+        // ------------------------------
+
+        // better approach
+        // Moores Voting Algorithm
+
+        int element = 0;
+        int count = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (count == 0) {
+                count++;
+                element = nums[i];
+            } else if (element == nums[i]) {
+                count ++;
+            } else {
+                count--;
+            }
+        }
+
+        int count1 = 0;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == element) {
+                count1++;
+            }
+        }
+
+        if (count1 > nums.length / 2) {
+            return element;
+        }
+        return -1;
+    }
+}
