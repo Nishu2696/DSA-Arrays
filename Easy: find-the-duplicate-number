@@ -1,0 +1,23 @@
+Question Link: https://leetcode.com/problems/find-the-duplicate-number/submissions/1490828494/
+
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int[] answer = new int[100001];
+        int max = 0;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (max < nums[i]) {
+                max = nums[i];
+            }
+            answer[nums[i]] = answer[nums[i]] + 1;
+        }
+
+        for (int i = 0; i <= max; i++) {
+            if (answer[i] > 1) {
+                return i;
+            } 
+        }
+
+        return -1;
+    }
+}
