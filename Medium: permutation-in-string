@@ -1,0 +1,37 @@
+Question Link: https://leetcode.com/problems/permutation-in-string/
+
+class Solution {
+    public boolean checkInclusion(String s1, String s2) {
+        if (s1.length() > s2.length()) {
+            return false;
+        }
+
+        int[] strike1 = new int[26];
+        int[] strike2 = new int[26];
+
+        for (int i = 0; i < s1.length(); i++) {
+            strike1[s1.charAt(i) - 'a']++;
+            strike2[s2.charAt(i) - 'a']++;
+        }
+
+        for (int i = 0; i < s2.length() - s1.length(); i++) {
+            if (matches(strike1, strike2)) {
+                return true;
+            }
+            strike2[s2.charAt(i) - 'a']--;
+            strike2[s2.charAt(i + s1.length()) - 'a']++;
+        }
+
+        return matches(strike1, strike2);
+    }
+
+    public boolean matches(int[] strike1, int[] strike2) {
+        for (int i = 0; i < 26; i++) {
+            if (strike1[i] != strike2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
