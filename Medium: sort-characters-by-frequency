@@ -1,0 +1,42 @@
+Question Link: https://leetcode.com/problems/sort-characters-by-frequency/
+
+class Solution {
+    public String frequencySort(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (char ch:s.toCharArray()) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
+        }
+
+        TreeMap<Integer, List<Character>> r = new TreeMap<>(Collections.reverseOrder());
+
+        // r.put(3, Arrays.asList('A', 'B', 'C'));
+        // r.put(1, Arrays.asList('X', 'Y'));
+        // r.put(2, Arrays.asList('P', 'Q', 'R'));
+
+        // output will look something like this
+        // {3=[A, B, C], 2=[P, Q, R], 1=[X, Y]}
+        // reverseOrder is dependent on Integer
+        // inside value of each key is not sorted
+
+        for (Map.Entry<Character, Integer> entry:map.entrySet()) {
+            if (!r.containsKey(entry.getValue())) {
+                r.put(entry.getValue(), new ArrayList<>());
+            }
+            r.get(entry.getValue()).add(entry.getKey());
+        }
+
+        StringBuilder ss = new StringBuilder();
+
+        for (Map.Entry<Integer, List<Character>> entry:r.entrySet()) {
+            int frequency = entry.getKey();
+            List<Character> chars = entry.getValue();
+            for (char ch:chars) {
+                for (int i = 0; i < frequency; i++) {
+                    ss.append(ch);
+                }
+            }
+        }
+
+        return ss.toString();
+    }
+}
