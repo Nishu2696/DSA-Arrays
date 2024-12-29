@@ -1,0 +1,76 @@
+Question Link: https://leetcode.com/problems/reverse-words-in-a-string/description/
+
+class Solution {
+    public boolean validateBinaryTreeNodes(int n, int[] leftChild, int[] rightChild) {
+        boolean[] childCount = new boolean[n];
+        for (int childs : leftChild) {
+            if (childs != -1) {
+                childCount[childs] = true;
+            }
+        }
+
+        for (int childs : rightChild) {
+            if (childs != -1) {
+                if (childCount[childs]) {
+                    return false;
+                }
+                childCount[childs] = true;
+            }
+        }
+
+        int roots = -1;
+
+        for (int i = 0; i < n; i++) {
+            if (!childCount[i]) {
+                if (roots == -1) {
+                    roots = i;
+                } else {
+                    return false;
+                }
+            }
+        }
+
+        if (roots == -1) {
+            return false;
+        }
+
+        return isBinaryTreeValid(roots, leftChild, rightChild);
+    }
+
+    public boolean isBinaryTreeValid(int n, int[] leftChild, int[] rightChild) {
+        boolean[] visited = new boolean[leftChild.length];
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(n);
+
+        visited[n] = true;
+
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            if (leftChild[current] != -1) {
+                if (visited[leftChild[current]]) {
+                    return false;
+                }
+
+                queue.offer(leftChild[current]);
+                visited[leftChild[current]] = true;
+            }
+
+            if (rightChild[current] != -1) {
+                if (visited[rightChild[current]]) {
+                    return false;
+                }
+
+                queue.offer(rightChild[current]);
+                visited[rightChild[current]] = true;
+            }
+        }
+
+        for(boolean visit: visited) {
+            if (!visit) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
