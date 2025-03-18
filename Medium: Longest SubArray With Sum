@@ -1,0 +1,29 @@
+Question Link: https://www.geeksforgeeks.org/problems/longest-sub-array-with-sum-k0809/1
+
+class Solution {
+    public int longestSubarray(int[] arr, int k) {
+        // code here
+        int sum = 0;
+        int maxLen = 0;
+        
+        Map<Integer, Integer> memo = new HashMap<>();
+        for (int i = 0; i < arr.length; i++) {
+            sum = sum + arr[i];
+            if (sum == k) {
+                maxLen = Math.max(maxLen, i + 1);
+            }
+            
+            int rem = sum - k;
+            if (memo.containsKey(rem)) {
+                int len = i - memo.get(rem);
+                maxLen = Math.max(maxLen, len);
+            }
+            
+            if (!memo.containsKey(sum)) {
+                memo.put(sum, i);
+            }
+        }
+        
+        return maxLen;
+    }
+}
