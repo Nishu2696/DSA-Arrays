@@ -1,0 +1,46 @@
+Question Link: https://leetcode.com/problems/top-k-frequent-elements/
+
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        HashMap<Integer, Integer> memo = new HashMap<>();
+
+        for (int i = 0; i < nums.length; i++) {
+            memo.put(nums[i], memo.getOrDefault(nums[i], 0) + 1);
+        }
+
+        // List<Integer>[] frequency = new ArrayList[nums.length + 1];
+
+        // for (int i = 0; i < frequency.length; i++) {
+        //     frequency[i] = new ArrayList<>();
+        // }
+
+        // for (Map.Entry<Integer, Integer> entry: memo.entrySet()) {
+        //     int freq = entry.getValue();
+        //     frequency[freq].add(entry.getKey());
+        // }
+
+        // int[] res = new int[k];
+        // int index = 0;
+
+        // for (int i = frequency.length - 1; i >= 0; i--) {
+        //     for (int num: frequency[i]) {
+        //         res[index] = num;
+        //         index++;
+        //         if (index == k) {
+        //             return res;
+        //         }
+        //     }
+        // }
+
+        // return new int[0];
+
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a,b) -> memo.get(b) - memo.get(a));
+        pq.addAll(memo.keySet());
+
+        int[] res = new int[k];
+        for (int i = 0; i < k; i++) {
+            res[i] = pq.poll();
+        }
+        return res;
+    }
+}
