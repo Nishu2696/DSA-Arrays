@@ -1,0 +1,66 @@
+Question Link: https://leetcode.com/problems/perfect-rectangle/
+
+class Solution {
+    public boolean isRectangleCover(int[][] rectangles) {
+        if (rectangles.length == 0 || rectangles[0].length == 0) {
+            return false;
+        }
+        int area = 0;
+
+        int minX = Integer.MAX_VALUE;
+        int minY = Integer.MAX_VALUE;
+        int maxA = Integer.MIN_VALUE;
+        int maxB = Integer.MIN_VALUE;
+
+        Set<String> set = new HashSet<>();
+
+        for (int[] rects: rectangles) {
+            int x = rects[0];
+            int y = rects[1];
+            int a = rects[2];
+            int b = rects[3];
+
+            area = area + (x - a) * (y - b);
+
+            minX = Math.min(minX, x);
+            minY = Math.min(minY, y);
+            maxA = Math.max(maxA, a);
+            maxB = Math.max(maxB, b);
+
+            String bottomLeft = hasSet(x,y);
+            String topLeft = hasSet(x,b);
+            String bottomRight = hasSet(a,y);
+            String topRight = hasSet(a,b);
+
+            checkIfSet(set, bottomLeft);
+            checkIfSet(set, topLeft);
+            checkIfSet(set, bottomRight);
+            checkIfSet(set, topRight);
+        }
+
+        String fullBottomLeft = hasSet(minX, minY);
+        String fullTopLeft = hasSet(minX, maxB);
+        String fullBottomRight = hasSet(maxA, minY);
+        String fullTopRight = hasSet(maxA, maxB);
+
+        if (set.size() != 4 || !set.contains(fullBottomLeft) || !set.contains(fullTopLeft) || !set.contains(fullBottomRight) || !set.contains(fullTopRight)) {
+            return false;
+        }
+
+        int fullArea = (minX - maxA) * (minY - maxB);
+
+        return area == fullArea;
+    }
+
+    public void checkIfSet(Set<String> set, String str) {
+        if (!set.contains(str)) {
+            set.add(str);
+        } else {
+            set.remove(str);
+        }
+    }
+
+    public String hasSet(int x, int y) {
+        return x + ":" + y;
+    }
+}
