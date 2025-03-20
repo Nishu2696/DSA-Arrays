@@ -1,0 +1,20 @@
+Question Link:
+
+class Solution {
+    public int findNthDigit(int n) {
+        long digitInNum = 1;
+        long start = 1;
+        long end = 9;
+
+        while (n > digitInNum * end) {
+            n -= digitInNum * end;
+            digitInNum = digitInNum + 1;
+            start = start * 10;
+            end = end * 10;
+        }
+
+        long num = start + (n - 1) / digitInNum;
+        String str = Long.toString(num);
+        return str.charAt((int)((n - 1) % digitInNum)) - '0';
+    }
+}
