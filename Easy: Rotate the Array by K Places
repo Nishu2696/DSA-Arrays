@@ -1,0 +1,50 @@
+URL: https://leetcode.com/problems/rotate-array/submissions/1640566327/
+
+class Solution {
+    // Step 2: Reverse the entire array
+    // This reverses all elements from index 0 to 6.
+    // Original array: [1, 2, 3, 4, 5, 6, 7]
+    // After reversing: [7, 6, 5, 4, 3, 2, 1]
+    // How it works:
+    // Swap nums[0] and nums[6] → [7, 2, 3, 4, 5, 6, 1]
+    // Swap nums[1] and nums[5] → [7, 6, 3, 4, 5, 2, 1]
+    // Swap nums[2] and nums[4] → [7, 6, 5, 4, 3, 2, 1]
+    // nums[3] stays (middle element)
+    // ---> Final after Step 2: [7, 6, 5, 4, 3, 2, 1]
+
+
+    // Step 3: Reverse the first k elements
+    // This reverses elements at index 0 to 2.
+    // Input: [7, 6, 5, 4, 3, 2, 1]
+    // After reversing: [5, 6, 7, 4, 3, 2, 1]
+    // How it works:
+    // Swap nums[0] and nums[2] → [5, 6, 7, 4, 3, 2, 1]
+    // nums[1] stays (middle)
+    // ----> Final after Step 3: [5, 6, 7, 4, 3, 2, 1]
+
+    // Step 4: Reverse the remaining elements
+    // This reverses elements at index 3 to 6.
+    // Input: [5, 6, 7, 4, 3, 2, 1]
+    // After reversing: [5, 6, 7, 1, 2, 3, 4]
+    // How it works:
+    // Swap nums[3] and nums[6] → [5, 6, 7, 1, 3, 2, 4]
+    // Swap nums[4] and nums[5] → [5, 6, 7, 1, 2, 3, 4]
+    // ----> Final after Step 4: [5, 6, 7, 1, 2, 3, 4] (this is the rotated array)
+    public void rotate(int[] nums, int k) {
+        k = k % nums.length;
+        reverse(nums, 0, nums.length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
+        System.gc();
+    }
+
+    public void reverse(int[] nums, int start, int end) {
+        while (start < end) {
+            int temp = nums[start];
+            nums[start] = nums[end];
+            nums[end] = temp;
+            start++;
+            end--;
+        }
+    }
+}
