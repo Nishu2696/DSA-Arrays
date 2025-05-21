@@ -1,0 +1,23 @@
+class Solution {
+    public boolean check(int[] nums) {
+        int count = 0;
+        if (nums[0] < nums[nums.length - 1]) {
+            count++;
+        }
+
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i] > nums[i+1]) {
+                count++;
+            }
+            // overall in the array, there will be only one reference where i > i+1
+            // hence if more than 1 occurence occurs, even if we rotate, the array wont be sorted
+            // for eg: [4,5,1,2,6,3]
+            // so in the above 5 > 1 and 6 > 3
+            if (count > 1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
